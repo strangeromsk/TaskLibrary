@@ -1,10 +1,10 @@
 $(function(){
 
-    const appendBook = function(data){
-        var bookCode = '<a href="#" class="book-link" data-id="' +
+    const appendTask = function(data){
+        var taskCode = '<a href="#" class="task-link" data-id="' +
             data.id + '">' + data.name + '</a><br>';
-        $('#book-list')
-            .append('<div>' + bookCode + '</div>');
+        $('#task-list')
+            .append('<div>' + taskCode + '</div>');
     };
 
     //Loading books on load page
@@ -16,24 +16,24 @@ $(function(){
 //    });
 
     //Show adding book form
-    $('#show-add-book-form').click(function(){
-        $('#book-form').css('display', 'flex');
+    $('#show-add-task-form').click(function(){
+        $('#task-form').css('display', 'flex');
     });
 
     //Closing adding book form
-    $('#book-form').click(function(event){
+    $('#task-form').click(function(event){
         if(event.target === this) {
             $(this).css('display', 'none');
         }
     });
 
     //Getting book
-    $(document).on('click', '.book-link', function(){
+    $(document).on('click', '.task-link', function(){
         var link = $(this);
-        var bookId = link.data('id');
+        var taskId = link.data('id');
         $.ajax({
             method: "GET",
-            url: '/books/' + bookId,
+            url: '/tasks/' + taskId,
             success: function(response)
             {
                 var code = '<span>Год выпуска:' + response.year + '</span>';
@@ -42,7 +42,7 @@ $(function(){
             error: function(response)
             {
                 if(response.status == 404) {
-                    alert('Книга не найдена!');
+                    alert('Not found!');
                 }
             }
         });
@@ -50,23 +50,23 @@ $(function(){
     });
 
     //Adding book
-    $('#save-book').click(function()
+    $('#save-task').click(function()
     {
-        var data = $('#book-form form').serialize();
+        var data = $('#task-form form').serialize();
         $.ajax({
             method: "POST",
-            url: '/books/',
+            url: '/tasks/',
             data: data,
             success: function(response)
             {
-                $('#book-form').css('display', 'none');
-                var book = {};
-                book.id = response;
-                var dataArray = $('#book-form form').serializeArray();
+                $('#task-form').css('display', 'none');
+                var task = {};
+                task.id = response;
+                var dataArray = $('#task-form form').serializeArray();
                 for(i in dataArray) {
-                    book[dataArray[i]['name']] = dataArray[i]['value'];
+                    task[dataArray[i]['name']] = dataArray[i]['value'];
                 }
-                appendBook(book);
+                appendTask(task);
             }
         });
         return false;

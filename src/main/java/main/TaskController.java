@@ -5,10 +5,12 @@ import main.model.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -55,5 +57,17 @@ public class TaskController
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return new ResponseEntity(optionalTask.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/tasks/{id}")
+    Task replaceTask(@RequestBody Task newTask, @PathVariable Integer id){
+        return taskRepository.findById(id).map(task -> {
+            task.setName(newTask.getName());
+            task.setYear(newTask.getYear());
+            return taskRepository.save(task);
+        }).orElseGet(()->{
+            newTask.setId(id);
+            return taskRepository.save(newTask);
+        });
     }
 }
