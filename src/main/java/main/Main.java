@@ -2,6 +2,7 @@ package main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 //679x0z2!e&kC
 @SpringBootApplication
 public class Main

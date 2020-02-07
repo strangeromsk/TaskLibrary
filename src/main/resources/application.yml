@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tasklib
+    username: root
+    password: gbv!b0vgi@%#31IIDi
+spring.jpa.hibernate.ddl-auto: create
+someParameter:
+  value: 5463
